@@ -1,0 +1,70 @@
+formatter: "markdown"
+
+version: ""
+
+header-from: "./documentation_configuration/header.md"
+footer-from: "./documentation_configuration/footer.md"
+
+recursive:
+  enabled: false
+  path: modules
+  include-main: true
+
+sections:
+  hide: []
+  show: []
+
+content: |-
+
+  {{ .Header }}
+
+  {{ include "./documentation_configuration/overview.md" }}
+
+  {{ .Providers }}
+
+  {{ .Resources }}
+
+  {{ .Inputs }}
+
+  # Examples
+
+  {{ include "./examples/simple_developer_sku_deployment/README.md" }}
+  ```hcl
+  {{ include "./examples/simple_developer_sku_deployment/main.tf" }}
+  ```
+  To see more examples, visit the [examples](./examples) folder.
+
+  {{ .Outputs }}
+
+  {{ .Footer }}
+
+output:
+  file: "README.md"
+  mode: replace
+  template: |-
+    <!-- BEGIN_TF_DOCS -->
+    {{ .Content }}
+    <!-- END_TF_DOCS -->
+
+output-values:
+  enabled: false
+  from: ""
+
+sort:
+  enabled: true
+  by: required
+
+settings:
+  anchor: true
+  color: true
+  default: true
+  description: false
+  escape: true
+  hide-empty: false
+  html: true
+  indent: 1
+  lockfile: true
+  read-comments: true
+  required: true
+  sensitive: true
+  type: true
