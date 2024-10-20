@@ -28,13 +28,13 @@ variable "sku" {
 }
 
 variable "virtual_network_id" {
-  description = "(Optional) The ID of the Virtual Network for the Developer Bastion Host. Changing this forces a new resource to be created."
+  description = "(Optional) The ID of the virtual network. Required when sku is Developer OR when create_azure_bastion_subnet is true."
   type        = string
-  default     = null
+  default     = ""
 
   validation {
-    condition     = can(regex("^/subscriptions/[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}/resourceGroups/[-\\w]+/providers/Microsoft.Network/virtualNetworks/[-\\w]+$", var.virtual_network_id))
-    error_message = "Please enter a valid virtual network id."
+    condition     = !(var.sku == "Developer" || var.create_azure_bastion_subnet == true) || can(regex("^/subscriptions/[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}/resourceGroups/[-\\w]+/providers/Microsoft.Network/virtualNetworks/[-\\w]+$", var.virtual_network_id))
+    error_message = "IF (sku is developer or create_azure_bastion_subnet is true) THEN virtual_network_id must be in the correct form."
   }
 }
 
@@ -54,8 +54,8 @@ variable "azure_bastion_subnet_address_prefixes" {
   default     = []
 
   validation {
-    condition     = var.create_azure_bastion_subnet == false || alltrue([for cidr in var.azure_bastion_subnet_address_prefixes : can(cidrhost(cidr, 0))])
-    error_message = "If create_azure_bastion_subnet is true, you must enter a list of valid cidr ranges for subnets"
+    condition     = !(var.create_azure_bastion_subnet == true) || alltrue([for cidr in var.azure_bastion_subnet_address_prefixes : can(cidrhost(cidr, 0))])
+    error_message = "IF create_azure_bastion_subnet is true THEN azure_bastion_subnet_address_prefixes must be in correct CIDR notation."
   }
 }
 
@@ -65,8 +65,8 @@ variable "azure_bastion_subnet_id" {
   default     = null
 
   validation {
-    condition     = var.create_azure_bastion_subnet == true || can(regex("^/subscriptions/[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}/resourceGroups/[-\\w]+/providers/Microsoft.Network/virtualNetworks/[-\\w]+/subnets/$[-\\w]+", var.azure_bastion_subnet_id))
-    error_message = "Please enter a valid virtual network id."
+    condition     = !(var.sku != "Developer" && var.create_azure_bastion_subnet == false) || can(regex("^/subscriptions/[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}/resourceGroups/[-\\w]+/providers/Microsoft.Network/virtualNetworks/[-\\w]+/subnets/AzureBastionSubnet", var.azure_bastion_subnet_id))
+    error_message = "IF (sku is not developer AND create_azure_bastion_subnet is false) THEN azure_bastion_subnet_id must be entered in the correct form."
   }
 }
 

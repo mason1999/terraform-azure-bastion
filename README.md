@@ -26,40 +26,40 @@ Azure Bastion is a fully managed service by Microsoft Azure that provides secure
 
 # Providers
 
-| Name | Version |
-|------|---------|
-| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 4.5.0 |
+| Name                                                         | Version |
+| ------------------------------------------------------------ | ------- |
+| <a name="provider_azurerm"></a> [azurerm](#provider_azurerm) | 4.5.0   |
 
 # Resources
 
-| Name | Type |
-|------|------|
-| [azurerm_bastion_host.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/bastion_host) | resource |
-| [azurerm_network_security_group.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_security_group) | resource |
-| [azurerm_public_ip.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/public_ip) | resource |
-| [azurerm_subnet.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/subnet) | resource |
+| Name                                                                                                                                                                                | Type     |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| [azurerm_bastion_host.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/bastion_host)                                                           | resource |
+| [azurerm_network_security_group.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_security_group)                                       | resource |
+| [azurerm_public_ip.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/public_ip)                                                                 | resource |
+| [azurerm_subnet.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/subnet)                                                                       | resource |
 | [azurerm_subnet_network_security_group_association.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/subnet_network_security_group_association) | resource |
 
 # Inputs
 
-| Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
-| <a name="input_location"></a> [location](#input\_location) | (Required) Specifies the supported Azure location where the resource exists. Changing this forces a new resource to be created. Review Azure Bastion Host FAQ for supported locations. | `string` | n/a | yes |
-| <a name="input_name"></a> [name](#input\_name) | (Required) Specifies the name of the Bastion Host. Changing this forces a new resource to be created. | `string` | n/a | yes |
-| <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name) | (Required) The name of the resource group in which to create the Bastion Host. Changing this forces a new resource to be created. | `string` | n/a | yes |
-| <a name="input_azure_bastion_subnet_address_prefixes"></a> [azure\_bastion\_subnet\_address\_prefixes](#input\_azure\_bastion\_subnet\_address\_prefixes) | (Optional) Address prefixes for azure bastion subnet to be created. Required when create\_azure\_bastion\_subnet is set to true. | `list(string)` | `[]` | no |
-| <a name="input_azure_bastion_subnet_id"></a> [azure\_bastion\_subnet\_id](#input\_azure\_bastion\_subnet\_id) | (Optional) A subnet which has at least a size of /26 which is named AzureBastionSubnet. Required if create\_azure\_bastion\_subnet is false. | `string` | `null` | no |
-| <a name="input_copy_paste_enabled"></a> [copy\_paste\_enabled](#input\_copy\_paste\_enabled) | (Optional) Is Copy/Paste feature enabled for the Bastion Host. Defaults to true. | `bool` | `true` | no |
-| <a name="input_create_azure_bastion_subnet"></a> [create\_azure\_bastion\_subnet](#input\_create\_azure\_bastion\_subnet) | (Optional) Boolean flag to create the azure bastion subnet and associate network security rules. Defaults to false. | `bool` | `false` | no |
-| <a name="input_file_copy_enabled"></a> [file\_copy\_enabled](#input\_file\_copy\_enabled) | (Optional) Is File Copy feature enabled for the Bastion Host. Defaults to false.<br><br>  Note: file\_copy\_enabled is only supported when sku is Standard. | `bool` | `false` | no |
-| <a name="input_ip_connect_enabled"></a> [ip\_connect\_enabled](#input\_ip\_connect\_enabled) | (Optional) Is IP Connect feature enabled for the Bastion Host. Defaults to false.<br><br>  Note: ip\_connect\_enabled is only supported when sku is Standard. | `bool` | `false` | no |
-| <a name="input_kerberos_enabled"></a> [kerberos\_enabled](#input\_kerberos\_enabled) | (Optional) Is Kerberos authentication feature enabled for the Bastion Host. Defaults to false.<br><br>  Note: kerberos\_enabled is only supported when sku is Standard. | `bool` | `false` | no |
-| <a name="input_scale_units"></a> [scale\_units](#input\_scale\_units) | (Optional) The number of scale units with which to provision the Bastion Host. Possible values are between 2 and 50. Defaults to 2.<br><br>  Note: scale\_units only can be changed when sku is Standard. scale\_units is always 2 when sku is Basic. | `number` | `2` | no |
-| <a name="input_shareable_link_enabled"></a> [shareable\_link\_enabled](#input\_shareable\_link\_enabled) | (Optional) Is Shareable Link feature enabled for the Bastion Host. Defaults to false.<br><br>  Note: shareable\_link\_enabled is only supported when sku is Standard. | `bool` | `false` | no |
-| <a name="input_sku"></a> [sku](#input\_sku) | (Optional) The SKU of the Bastion Host. Accepted values are Developer, Basic and Standard. Defaults to Basic.<br><br>  Note: Downgrading the SKU will force a new resource to be created. | `string` | `"Basic"` | no |
-| <a name="input_tags"></a> [tags](#input\_tags) | (Optional) A mapping of tags to assign to the resource. | `map(string)` | `{}` | no |
-| <a name="input_tunneling_enabled"></a> [tunneling\_enabled](#input\_tunneling\_enabled) | (Optional) Is Tunneling feature enabled for the Bastion Host. Defaults to false.<br><br>  Note: tunneling\_enabled is only supported when sku is Standard. | `bool` | `false` | no |
-| <a name="input_virtual_network_id"></a> [virtual\_network\_id](#input\_virtual\_network\_id) | (Optional) The ID of the Virtual Network for the Developer Bastion Host. Changing this forces a new resource to be created. | `string` | `null` | no |
+| Name                                                                                                                                             | Description                                                                                                                                                                                                                                        | Type           | Default   | Required |
+| ------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------- | --------- | :------: |
+| <a name="input_location"></a> [location](#input_location)                                                                                        | (Required) Specifies the supported Azure location where the resource exists. Changing this forces a new resource to be created. Review Azure Bastion Host FAQ for supported locations.                                                             | `string`       | n/a       |   yes    |
+| <a name="input_name"></a> [name](#input_name)                                                                                                    | (Required) Specifies the name of the Bastion Host. Changing this forces a new resource to be created.                                                                                                                                              | `string`       | n/a       |   yes    |
+| <a name="input_resource_group_name"></a> [resource_group_name](#input_resource_group_name)                                                       | (Required) The name of the resource group in which to create the Bastion Host. Changing this forces a new resource to be created.                                                                                                                  | `string`       | n/a       |   yes    |
+| <a name="input_azure_bastion_subnet_address_prefixes"></a> [azure_bastion_subnet_address_prefixes](#input_azure_bastion_subnet_address_prefixes) | (Optional) Address prefixes for azure bastion subnet to be created. Required when create_azure_bastion_subnet is set to true.                                                                                                                      | `list(string)` | `[]`      |    no    |
+| <a name="input_azure_bastion_subnet_id"></a> [azure_bastion_subnet_id](#input_azure_bastion_subnet_id)                                           | (Optional) A subnet which has at least a size of /26 which is named AzureBastionSubnet. Required if create_azure_bastion_subnet is false.                                                                                                          | `string`       | `null`    |    no    |
+| <a name="input_copy_paste_enabled"></a> [copy_paste_enabled](#input_copy_paste_enabled)                                                          | (Optional) Is Copy/Paste feature enabled for the Bastion Host. Defaults to true.                                                                                                                                                                   | `bool`         | `true`    |    no    |
+| <a name="input_create_azure_bastion_subnet"></a> [create_azure_bastion_subnet](#input_create_azure_bastion_subnet)                               | (Optional) Boolean flag to create the azure bastion subnet and associate network security rules. Defaults to false.                                                                                                                                | `bool`         | `false`   |    no    |
+| <a name="input_file_copy_enabled"></a> [file_copy_enabled](#input_file_copy_enabled)                                                             | (Optional) Is File Copy feature enabled for the Bastion Host. Defaults to false.<br><br> Note: file_copy_enabled is only supported when sku is Standard.                                                                                           | `bool`         | `false`   |    no    |
+| <a name="input_ip_connect_enabled"></a> [ip_connect_enabled](#input_ip_connect_enabled)                                                          | (Optional) Is IP Connect feature enabled for the Bastion Host. Defaults to false.<br><br> Note: ip_connect_enabled is only supported when sku is Standard.                                                                                         | `bool`         | `false`   |    no    |
+| <a name="input_kerberos_enabled"></a> [kerberos_enabled](#input_kerberos_enabled)                                                                | (Optional) Is Kerberos authentication feature enabled for the Bastion Host. Defaults to false.<br><br> Note: kerberos_enabled is only supported when sku is Standard.                                                                              | `bool`         | `false`   |    no    |
+| <a name="input_scale_units"></a> [scale_units](#input_scale_units)                                                                               | (Optional) The number of scale units with which to provision the Bastion Host. Possible values are between 2 and 50. Defaults to 2.<br><br> Note: scale_units only can be changed when sku is Standard. scale_units is always 2 when sku is Basic. | `number`       | `2`       |    no    |
+| <a name="input_shareable_link_enabled"></a> [shareable_link_enabled](#input_shareable_link_enabled)                                              | (Optional) Is Shareable Link feature enabled for the Bastion Host. Defaults to false.<br><br> Note: shareable_link_enabled is only supported when sku is Standard.                                                                                 | `bool`         | `false`   |    no    |
+| <a name="input_sku"></a> [sku](#input_sku)                                                                                                       | (Optional) The SKU of the Bastion Host. Accepted values are Developer, Basic and Standard. Defaults to Basic.<br><br> Note: Downgrading the SKU will force a new resource to be created.                                                           | `string`       | `"Basic"` |    no    |
+| <a name="input_tags"></a> [tags](#input_tags)                                                                                                    | (Optional) A mapping of tags to assign to the resource.                                                                                                                                                                                            | `map(string)`  | `{}`      |    no    |
+| <a name="input_tunneling_enabled"></a> [tunneling_enabled](#input_tunneling_enabled)                                                             | (Optional) Is Tunneling feature enabled for the Bastion Host. Defaults to false.<br><br> Note: tunneling_enabled is only supported when sku is Standard.                                                                                           | `bool`         | `false`   |    no    |
+| <a name="input_virtual_network_id"></a> [virtual_network_id](#input_virtual_network_id)                                                          | (Optional) The ID of the Virtual Network for the Developer Bastion Host. Changing this forces a new resource to be created.                                                                                                                        | `string`       | `null`    |    no    |
 
 # Examples
 
@@ -71,6 +71,7 @@ This example demonstrates a minimialistic provisioning of Azure Bastion in the d
 1. Enter in a location to deploy your resources. Note that the developer sku is only supported in some regions (e.g `West US`).
 
 To provision this, enter in values to the `variables.tf` file.
+
 ```hcl
 /////////////////////////////////////////////////////////////
 // Virtual Networks
@@ -200,6 +201,7 @@ module "bastion" {
   sku                 = "Developer"
 }
 ```
+
 To see more examples, visit the [examples](./examples) folder.
 
 # Outputs

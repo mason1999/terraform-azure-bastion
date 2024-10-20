@@ -16,12 +16,18 @@ resource "azurerm_subnet" "example_ten_one" {
   address_prefixes     = ["10.1.0.0/24"]
 }
 
-# Note that we have NOT made a subnet called "AzureBastionSubnet" as the developer sku doesn't require us to make one
 resource "azurerm_virtual_network" "bastion_vnet_example" {
   name                = "bastion-vnet-example"
   location            = var.location
   resource_group_name = var.resource_group_name
   address_space       = ["10.2.0.0/16"]
+}
+
+resource "azurerm_subnet" "bastion_subnet_example" {
+  name                 = "AzureBastionSubnet"
+  resource_group_name  = var.resource_group_name
+  virtual_network_name = azurerm_virtual_network.bastion_vnet_example.name
+  address_prefixes     = ["10.2.0.0/24"]
 }
 
 resource "azurerm_virtual_network" "example_ten_three" {
@@ -76,7 +82,7 @@ resource "azurerm_virtual_network_peering" "peer-bastion-to-3" {
 /////////////////////////////////////////////////////////////
 
 module "jumpbox_one" {
-  source = "git::https://github.com/mason1999/terraform-windows-vm.git"
+  source = "git::https://github.com/mason1999/terraform-linux-vm.git?ref=feat/neovim-tmux-init"
 
   resource_group_name           = var.resource_group_name
   location                      = var.location
@@ -92,7 +98,7 @@ module "jumpbox_one" {
 }
 
 module "jumpbox_two" {
-  source = "git::https://github.com/mason1999/terraform-windows-vm.git"
+  source = "git::https://github.com/mason1999/terraform-linux-vm.git?ref=feat/neovim-tmux-init"
 
   resource_group_name           = var.resource_group_name
   location                      = var.location
@@ -112,10 +118,11 @@ module "jumpbox_two" {
 /////////////////////////////////////////////////////////////
 
 module "bastion" {
-  source              = "git::https://github.com/mason1999/terraform-azure-bastion.git"
-  name                = "bastion-host"
-  resource_group_name = var.resource_group_name
-  location            = var.location
-  virtual_network_id  = azurerm_virtual_network.bastion_vnet_example.id
-  sku                 = "Developer"
+  source                  = "git::https://github.com/mason1999/terraform-azure-bastion.git"
+  name                    = "bastion-host-one"
+  resource_group_name     = var.resource_group_name
+  location                = var.location
+  sku                     = "Basic"
+  azure_bastion_subnet_id = azurerm_subnet.bastion_subnet_example.id
+
 }

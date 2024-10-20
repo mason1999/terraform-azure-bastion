@@ -4,8 +4,9 @@ resource "azurerm_public_ip" "this" {
   resource_group_name = var.resource_group_name
   location            = var.location
   allocation_method   = "Static"
-  sku                 = var.sku
+  sku                 = "Standard"
   tags                = var.tags
+  # sku                 = var.sku
 }
 
 resource "azurerm_subnet" "this" {
@@ -70,6 +71,54 @@ resource "azurerm_network_security_group" "this" {
     destination_port_ranges    = ["8080", "5071"]
   }
 
+  security_rule {
+    name                       = "AllowSshRdpOutbound"
+    priority                   = 100
+    direction                  = "Outbound"
+    access                     = "Allow"
+    protocol                   = "*"
+    source_address_prefix      = "*"
+    source_port_range          = "*"
+    destination_address_prefix = "VirtualNetwork"
+    destination_port_ranges    = ["22", "3389"]
+  }
+
+  security_rule {
+    name                       = "AllowAzureCloudOutbound"
+    priority                   = 110
+    direction                  = "Outbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_address_prefix      = "*"
+    source_port_range          = "*"
+    destination_address_prefix = "AzureCloud"
+    destination_port_range     = "443"
+  }
+
+  security_rule {
+    name                       = "AllowBastionCommunication"
+    priority                   = 120
+    direction                  = "Outbound"
+    access                     = "Allow"
+    protocol                   = "*"
+    source_address_prefix      = "VirtualNetwork"
+    source_port_range          = "*"
+    destination_address_prefix = "VirtualNetwork"
+    destination_port_ranges    = ["8080", "5701"]
+  }
+
+  security_rule {
+    name                       = "AllowHttpOutbound"
+    priority                   = 130
+    direction                  = "Outbound"
+    access                     = "Allow"
+    protocol                   = "*"
+    source_address_prefix      = "*"
+    source_port_range          = "*"
+    destination_address_prefix = "Internet"
+    destination_port_range     = "80"
+  }
+
 }
 resource "azurerm_subnet_network_security_group_association" "this" {
   count                     = var.sku != "Developer" && var.create_azure_bastion_subnet == true ? 1 : 0
@@ -99,6 +148,6 @@ resource "azurerm_bastion_host" "this" {
   kerberos_enabled       = var.kerberos_enabled
   shareable_link_enabled = var.shareable_link_enabled
   tunneling_enabled      = var.tunneling_enabled
-  virtual_network_id     = var.virtual_network_id
+  virtual_network_id     = var.sku == "Developer" ? var.virtual_network_id : null
   tags                   = var.tags
 }
